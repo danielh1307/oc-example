@@ -1,0 +1,24 @@
+# Service is available via a port of the cluster node.
+
+# NAME                 TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+# oc-example-service   NodePort   172.30.110.38   <none>        8079:31787/TCP   6s
+
+# Cluster IP is 192.168.64.2, so the service is available from outside the cluster via
+# curl http://192.168.64.2:31787/greeting?name=Daniel
+
+# Was Chrome zu einem Neuladen der Seite veranlasst:
+# - "reload" ((SHIFT +) COMMAND + R)
+# - Browserverlauf löschen
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: oc-example-service
+spec:
+  selector:
+    app: oc-example
+  ports:
+  - protocol: TCP
+    port: 8079
+    targetPort: 8080
+  type: NodePort

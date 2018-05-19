@@ -1,0 +1,20 @@
+# Service is available via a port of the cluster node.
+
+# NAME                 TYPE           CLUSTER-IP     EXTERNAL-IP                     PORT(S)          AGE
+# oc-example-service   LoadBalancer   172.30.18.61   172.29.162.240,172.29.162.240   8079:31800/TCP   4s
+
+# Cluster IP is 192.168.64.2, so the service is available from outside the cluster via
+# curl http://192.168.64.2:31800/greeting?name=Daniel
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: oc-example-service
+spec:
+  selector:
+    app: oc-example
+  ports:
+  - protocol: TCP
+    port: 8079
+    targetPort: 8080
+  type: LoadBalancer

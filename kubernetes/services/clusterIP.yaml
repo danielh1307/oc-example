@@ -1,0 +1,28 @@
+# Service type ClusterIP
+# The service will be available only inside the cluster via an Cluster IP address
+
+# NAME                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+# oc-example-service   ClusterIP   172.30.98.69   <none>        8079/TCP   41m
+
+# Service will be available on http://172.30.98.69:8079/greeting?name=Daniel
+# To get the output, switch to Alpine and call
+# wget http://oc-example-service:8079/greeting?name=Daniel -q -O -
+# - or -
+# telnet oc-example-service 8079
+# GET /greeting?name=Daniel
+# <2 times ENTER>
+#
+# There are also environment variables on every pod created after the service (printenv), e.g
+# OC_EXAMPLE_SERVICE_PORT_8079_TCP_ADDR=172.30.98.69
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: oc-example-service
+spec:
+  selector:
+    app: oc-example
+  ports:
+  - protocol: TCP
+    port: 8079
+    targetPort: 8080

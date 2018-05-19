@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oc-example-deployment-ea
+  labels:
+    app: oc-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oc-example
+  template:
+    metadata:
+      labels:
+        app: oc-example
+    spec:
+      containers:
+      - name: oc-example
+        image: danielh1307/oc-example:0.0.1-SNAPSHOT
+        env:
+        - name: EARLY_ADOPTER
+          value: "yes"
+        ports:
+        - containerPort: 8080
