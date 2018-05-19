@@ -43,34 +43,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>1.4.0</version>
-				<executions>
-					<execution>
-						<id>default</id>
-						<goals>
-							<goal>build</goal>
-							<goal>push</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<repository>danielh1307/oc-example</repository>
-					<tag>${project.version}</tag>
-					<buildArgs>
-						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-					</buildArgs>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>javax.activation</groupId>
-						<artifactId>activation</artifactId>
-						<version>1.1.1</version>
-					</dependency>
-				</dependencies>
-			</plugin>
 		</plugins>
 	</build>
 </project>
