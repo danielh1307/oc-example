@@ -1,9 +1,11 @@
-https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0
-https://kubernetes.io/docs/concepts/services-networking/service/
+Builds / ImageStreams
 
-Ein Update läuft wie folgt (wenn es schon im Minishift läuft):
+Das Image wird innerhalb von Openshift erstellt
 
-- Code ändern
-- neu bauen: mvn clean package (es wird ein neues Image in die Registry geschrieben)
-- Pod killen: kubectl delete pod <NAME> (kann man auch über das Web-GUI von Minishift killen)
-- es sollte automatisch ein neuer Pod erzeugt werden, der das neue Image pullt
+Zunächst neuen ImageStream erstellen: oc create -f kubernetes/imagestream/openjdk18-openshift.json
+
+Neue App erstellen:
+oc new-app oc-example-image-stream~https://github.com/danielh1307/oc-example
+
+Triggert einen neuen Build:
+curl -X POST --insecure https://192.168.64.3:8443/oapi/v1/namespaces/oc-build-iamge/buildconfigs/oc-example/webhooks/jQ992fkoHl2cMBkHabla/generic
