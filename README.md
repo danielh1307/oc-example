@@ -26,6 +26,10 @@ Aus dieser BC lässt sich jetzt ein Docker-Image erstellen mit einem fertig geba
 `oc start-build <BUILD> --from-dir=./ocp --follow`  
 Dabei gehen wir davon aus, dass das .jar-File im Verzeichnis ./ocp/deployments liegt.  
 
+Falls wir den Tag des Images beeinflussen wollen, können wir direkt die BC editieren (default ist latest):  
+`{"spec":{"output":{"to":{"name":...}}}}`  
+... und dann einen neuen Build wie oben starten. 
+
 Das Docker-Image ist jetzt getaggt im ImageStream, infolgedessen kann man daraus eine neue Applikation (DC) erstellen:  
 `oc new-app <IS>`  
 Hinweis: Auch wenn der IS jezt in diesem Fall heisst wie der BUILD, könnten die Namen auch unterschiedlich sein.
