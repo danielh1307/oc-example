@@ -1,0 +1,41 @@
+# Image is being built in Openshift by using a BuildConfig. The source code is checked out from Gitlab and a new image is built.
+stages:
+- test
+- package
+- buildimage
+- deploy
+
+variables:
+  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
+  OPENSHIFT_SERVER: 192.168.64.3
+  DOCKER_REGISTRY: 172.30.1.1:5000
+
+cache:
+  paths:
+    - .m2/repository
+
+# execute unit tests
+unit-tests:
+  image: openjdk:8-jdk-alpine
+  stage: test
+  script:
+    - ./mvnw clean test
+
+# create the .jar file
+package:
+  image: openjdk:8-jdk-alpine
+  stage: package
+  script:
+    - ./mvnw -DskipTests clean package
+  artifacts:
+    paths:
+      - target/oc-example-*.jar
+
+# trigger Webhook to start a new build (we could use any image with curl here)
+deploy:
+  image: michelesr/oc
+  stage: deploy
+  script:
+    - curl -X POST --insecure https://192.168.64.3:8443/oapi/v1/namespaces/oc-example-build-oc/buildconfigs/oc-example-build-oc/webhooks/JsK0ZNudAkjOtQvQwm8u/generic
+# in the end the source code is checked out in Openshift and a new image is being built
+
